@@ -1,4 +1,4 @@
 package org.example;
 
-public class TestRem {
+public class BankApp {
 }
