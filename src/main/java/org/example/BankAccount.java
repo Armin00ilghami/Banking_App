@@ -24,4 +24,7 @@ public class BankAccount {
         this.balance = newBalance ;
     }
 
+    public int mobileNum() {
+        return this.mobileNum;
+    }
 }

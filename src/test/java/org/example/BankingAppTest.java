@@ -33,10 +33,15 @@ public class BankingAppTest {
     }
 
     @Test
-    void shouldGetTheLoanInterestAmount(){
+    void shouldGetTheLoanInterest(){
         Assertions.assertEquals(7, bankingService.getLoanInterestPercent("homeLoan"));
         Assertions.assertEquals(9, bankingService.getLoanInterestPercent("carLoan"));
         Assertions.assertEquals(12, bankingService.getLoanInterestPercent("personalLoan"));
     }
 
+    @Test
+    void shouldAbleSendOTPToMobile() {
+        Assertions.assertEquals(
+                "OTP send to number " + account.mobileNum() ,bankingService.sendOtp());
+    }
 }

@@ -35,4 +35,8 @@ public class BankingService {
         }
         return 15;
     }
+
+    public String sendOtp() {
+        return "OTP send to number " + account.mobileNum();
+    }
 }
