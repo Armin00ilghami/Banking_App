@@ -29,19 +29,22 @@ public class BankingAppTest {
 
     @Test
     void shouldAbleToGetPrintDataForPassbook(){
-        Assertions.assertEquals("Current balance is 5000.0", bankingService.getPassbookPrintData());
+        var printService = new PrintService(account);
+        Assertions.assertEquals("Current balance is 5000.0", printService.getPassbookPrintData());
     }
 
     @Test
     void shouldGetTheLoanInterest(){
-        Assertions.assertEquals(7, bankingService.getLoanInterestPercent("homeLoan"));
-        Assertions.assertEquals(9, bankingService.getLoanInterestPercent("carLoan"));
-        Assertions.assertEquals(12, bankingService.getLoanInterestPercent("personalLoan"));
+        LosnService losnService = new LosnService();
+        Assertions.assertEquals(7, losnService.getInterestPercent("homeLoan"));
+        Assertions.assertEquals(9, losnService.getInterestPercent("carLoan"));
+        Assertions.assertEquals(12, losnService.getInterestPercent("personalLoan"));
     }
 
     @Test
     void shouldAbleSendOTPToMobile() {
+        NotificationService notificationService = new NotificationService(account);
         Assertions.assertEquals(
-                "OTP send to number " + account.mobileNum() ,bankingService.sendOtp());
+                "OTP send to number " + account.mobileNum() ,notificationService.sendOtp());
     }
 }
