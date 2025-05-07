@@ -23,4 +23,16 @@ public class BankingService {
     public String getPassbookPrintData() {
         return "Current balance is " + account.getBalance();
     }
+
+    public float getLoanInterestPercent(String loanType) {
+        switch (loanType){
+            case "homeLoan":
+                return 7;
+            case "carLoan":
+                return 9;
+            case "personalLoan":
+                return 12;
+        }
+        return 15;
+    }
 }
