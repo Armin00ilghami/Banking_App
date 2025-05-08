@@ -84,4 +84,46 @@ public class BankingAppTest {
         Assertions.assertEquals(expected,notificationService.sendOtp());
     }
 
+    @Test
+    void shouldAbleToPaymentViaUPIUsingGooglePay() {
+        UPIPaymentsInterface googlePayUPI = new UPIPaymentViaGooglePay(savingAccount);
+        double paidAmount = 400;
+        String reciverUPI = "bond@upi.bank";
+
+        String expected = String.format(
+                "%.2f has been paid to UPI id %s. Have received a scratch card. Have received %.2f cashback" ,
+                paidAmount ,reciverUPI , paidAmount*0.01
+        );
+
+        Assertions.assertEquals(expected,googlePayUPI.payMoney(paidAmount, reciverUPI));
+    }
+
+    @Test
+    void shouldAbleToPaymentViaZarrinPalGate() {
+        UPIPaymentsInterface googlePayUPI = new ZarrinPalPayment(savingAccount);
+        double paidAmount = 400;
+        String reciverUPI = "bond@upi.bank";
+
+        String expected = String.format(
+                "%.2f has been paid to UPI id %s. Have received %.2f cashback" ,
+                paidAmount ,reciverUPI , paidAmount*0.05
+        );
+
+        Assertions.assertEquals(expected,googlePayUPI.payMoney(paidAmount, reciverUPI));
+    }
+
+    @Test
+    void shouldAbleToPaymentViaBlueBank() {
+        UPIPaymentsInterface googlePayUPI = new BlueBankPayment(savingAccount);
+        double paidAmount = 400;
+        String reciverUPI = "bond@upi.bank";
+
+        String expected = String.format(
+                "%.2f has been paid to UPI id %s.",
+                paidAmount ,reciverUPI
+        );
+
+        Assertions.assertEquals(expected,googlePayUPI.payMoney(paidAmount, reciverUPI));
+    }
+
 }
