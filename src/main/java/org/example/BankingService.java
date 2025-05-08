@@ -16,8 +16,4 @@ public class BankingService {
         return account.getBalance();
     }
 
-    public void withdrawMoney(double amt) {
-        account.withdrawMoney(amt);
-    }
-
 }

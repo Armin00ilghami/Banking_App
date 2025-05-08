@@ -6,30 +6,53 @@ import org.junit.jupiter.api.Test;
 
 public class BankingAppTest {
 
-    private BankAccount account;
-    private BankingService bankingService;
+    private SavingAccount savingAccount ;
+    private WithdrawalBankingService withdrawalBankingService;
+    private FixedDepositAccount fdAccount;
+    private BankingService fixedDepositBankingService;
+    private int fixedDepositedAmount;
+    private int savingDepositedAmount;
 
     @BeforeEach
     void setUp() {
-        account = new BankAccount("ACN123", "Ali", 999912345, "ali@xyz.com");
-        bankingService = new BankingService(account);
-        bankingService.depositMoney(5000);
+        savingAccount  = new SavingAccount("ACN123", "Ali", 999912345, "ali@xyz.com");
+        fdAccount = new FixedDepositAccount("ACN123", "Ali", 999912345, "ali@xyz.com");
+        withdrawalBankingService = new WithdrawalBankingService(savingAccount);
+        savingDepositedAmount = 5000;
+        withdrawalBankingService.depositMoney(savingDepositedAmount);
+        fixedDepositBankingService = new BankingService(fdAccount);
+        fixedDepositedAmount = 25000;
+        fixedDepositBankingService.depositMoney(fixedDepositedAmount);
     }
 
     @Test
     void shouldAbleToDepositMoney(){
-        Assertions.assertEquals(5000, bankingService.getAccountBalance());
+        Assertions.assertEquals(savingDepositedAmount, withdrawalBankingService.getAccountBalance());
+    }
+
+    @Test
+    void shouldAbleToDepositMoneyToFixedDeposit(){
+        Assertions.assertEquals(fixedDepositedAmount, fixedDepositBankingService.getAccountBalance());
+//        BankingService fixedDepositBankingService = new BankingService(fdAccount);
+//        fixedDepositBankingService.depositMoney(25000);
+//        Assertions.assertEquals(25000, fixedDepositBankingService.getAccountBalance());
     }
 
     @Test
     void shouldAbleToWithdrawMoney(){
-        bankingService.withdrawMoney(2000);
-        Assertions.assertEquals(3000, bankingService.getAccountBalance());
+        withdrawalBankingService.withdrawMoney(2000);
+        Assertions.assertEquals(3000, withdrawalBankingService.getAccountBalance());
+    }
+
+    @Test
+    void shouldNotAbleToWithdrawMoneyFromFixedDeposit(){
+      //  fixedDepositBankingService.withdrawMoney(2000);   Actually we cannot withdraw money from fixed deposit
+        Assertions.assertEquals(25000, fixedDepositBankingService.getAccountBalance());
     }
 
     @Test
     void shouldAbleToGetPrintDataForPassbook(){
-        var printService = new PrintService(account);
+        var printService = new PrintService(savingAccount);
         Assertions.assertEquals("Current balance is 5000.0", printService.getPassbookPrintData());
     }
 
@@ -43,20 +66,20 @@ public class BankingAppTest {
 
     @Test
     void shouldAbleSendOTPToMobileWithGreetingsAndDisclaimer() {
-        NotificationService notificationService = new SMSNotificationService(account);
+        NotificationService notificationService = new SMSNotificationService(savingAccount);
 
         String expected = String.format(
-                "Hi %s, Please don't this OTP with anyone. OTP send to your number %s" , account.name(),account.mobileNum()
+                "Hi %s, Please don't this OTP with anyone. OTP send to your number %s" , savingAccount.name(),savingAccount.mobileNum()
         );
         Assertions.assertEquals(expected,notificationService.sendOtp());
     }
 
     @Test
     void shouldAbleSendOTPToEmailWithGreetingsAndDisclaimer() {
-        NotificationService notificationService = new EmailNotificationService(account);
+        NotificationService notificationService = new EmailNotificationService(savingAccount);
 
         String expected = String.format(
-                "Hi %s, Please don't this OTP with anyone. OTP send to your email %s" , account.name(),account.email()
+                "Hi %s, Please don't this OTP with anyone. OTP send to your email %s" , savingAccount.name(),savingAccount.email()
         );
         Assertions.assertEquals(expected,notificationService.sendOtp());
     }

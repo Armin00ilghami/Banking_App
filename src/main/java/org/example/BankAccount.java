@@ -32,10 +32,6 @@ public class BankAccount {
         this.balance += amt;
     }
 
-    public void withdrawMoney(double amt) {
-        this.balance -= amt;
-    }
-
     public String name (){
         return this.name;
     }
