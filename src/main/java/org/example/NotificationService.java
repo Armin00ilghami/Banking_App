@@ -1,6 +1,6 @@
 package org.example;
 
-public class NotificationService {
+public abstract class NotificationService {
 
     private BankAccount account;
 
@@ -8,8 +8,10 @@ public class NotificationService {
         this.account = account;
     }
 
-    public String sendOtp() {
-        return "OTP send to number " + account.mobileNum();
+    abstract String sendOtp() ;
+
+    protected String greetAndDisclaimer() {
+        return String.format("Hi %s, Please don't this OTP with anyone. ", account.name());
     }
 
 }

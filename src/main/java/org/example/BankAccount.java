@@ -36,4 +36,12 @@ public class BankAccount {
         this.balance -= amt;
     }
 
+    public String name (){
+        return this.name;
+    }
+
+    public String email (){
+        return this.email;
+    }
+
 }

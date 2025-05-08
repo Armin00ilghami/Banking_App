@@ -42,9 +42,23 @@ public class BankingAppTest {
     }
 
     @Test
-    void shouldAbleSendOTPToMobile() {
-        NotificationService notificationService = new NotificationService(account);
-        Assertions.assertEquals(
-                "OTP send to number " + account.mobileNum() ,notificationService.sendOtp());
+    void shouldAbleSendOTPToMobileWithGreetingsAndDisclaimer() {
+        NotificationService notificationService = new SMSNotificationService(account);
+
+        String expected = String.format(
+                "Hi %s, Please don't this OTP with anyone. OTP send to your number %s" , account.name(),account.mobileNum()
+        );
+        Assertions.assertEquals(expected,notificationService.sendOtp());
     }
+
+    @Test
+    void shouldAbleSendOTPToEmailWithGreetingsAndDisclaimer() {
+        NotificationService notificationService = new EmailNotificationService(account);
+
+        String expected = String.format(
+                "Hi %s, Please don't this OTP with anyone. OTP send to your email %s" , account.name(),account.email()
+        );
+        Assertions.assertEquals(expected,notificationService.sendOtp());
+    }
+
 }
